@@ -17,3 +17,4 @@ D:\Dev\Maersk\BREOP\eOrder\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatfor
 D:\Dev\Maersk\BREOP\eOrder\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Dev\Maersk\BREOP\eOrder\obj\Debug\eOrder.dll
 D:\Dev\Maersk\BREOP\eOrder\obj\Debug\eOrder.pdb
+D:\Dev\Maersk\BREOP\eOrder\obj\Debug\eOrder.csprojResolveAssemblyReference.cache
