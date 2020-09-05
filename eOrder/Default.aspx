@@ -179,7 +179,7 @@
                                 </tr>
                                  <tr>
                                     <td>
-                                        Book Commission (if/any)
+                                        Applicable Commission (if/any)
                                     </td>
                                     <td>
                                         10rs to Mr Amanpreet (agent)
