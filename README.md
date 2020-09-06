@@ -9,6 +9,8 @@ To code an order processing application for a large company which uses random mi
 
 # How to Use and notes on extending functionality
 1. Project repo can be downloaded and imported into a blank solution using Visual Studio 2015 or higher and run using available options.
-2. Online demo can be access to view expected functionality.
+2. Online demo can be accessed to view expected functionality.
+
+Further extension of functionality can be done by storing business rules in a database and using the same on-demand for respective order types.
 
 
