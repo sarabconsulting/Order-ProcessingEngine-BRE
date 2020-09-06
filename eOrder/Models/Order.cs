@@ -13,7 +13,7 @@ namespace eOrder
     //Dated: 06-September-2020
     //Place: Jalandhar, PB India
     // Important Note:
-    // 1. Data is not persisted beyond the session
+    // 1. Data is not persisted in a datanase, i.e. not available beyond the session.
     // 2. Extension of the code for Business Rules can be done after integrating with a database to dynamically generate 
     //    and apply these rules. If done so, then the UI related objects would also require minor modification.
     //END
@@ -54,23 +54,31 @@ namespace eOrder
         }
         public int RulesCount() {
             return BusinessRules.Count();
-        }
+        }  ////Unused added for testing
         public void Setup()
         {
-            CurrentOrders = new List<Order>();
-            BusinessRules = new List<Rule>();
-            //Create Rules as per Problem Statement / or Fetch Saved Rules from Database table
-            Rule physicalProductRule = new Rule(OrderType.PhysicalProduct, true, false, false, false, false, false, false, true);
-            Rule bookRule = new Rule(OrderType.Book, true, true, false, false, false, false, false, true);
-            Rule membershipActivationRule = new Rule(OrderType.MembershipActivation, false, false, true, true, false, true, false, false);
-            Rule membershipUpgradeRule = new Rule(OrderType.MembershipUpgrade, false, false, true, false, true, true, false, false);
-            Rule videoRule = new Rule(OrderType.Video, true, false, false, false, false, false, true, true);
-            //Add
-            BusinessRules.Add(physicalProductRule);
-            BusinessRules.Add(bookRule);
-            BusinessRules.Add(membershipActivationRule);
-            BusinessRules.Add(membershipUpgradeRule);
-            BusinessRules.Add(videoRule);
+            try
+            {
+                CurrentOrders = new List<Order>();
+                BusinessRules = new List<Rule>();
+                //Create Rules as per Problem Statement / or Fetch Saved Rules from Database table
+                Rule physicalProductRule = new Rule(OrderType.PhysicalProduct, true, false, false, false, false, false, false, true);
+                Rule bookRule = new Rule(OrderType.Book, true, true, false, false, false, false, false, true);
+                Rule membershipActivationRule = new Rule(OrderType.MembershipActivation, false, false, true, true, false, true, false, false);
+                Rule membershipUpgradeRule = new Rule(OrderType.MembershipUpgrade, false, false, true, false, true, true, false, false);
+                Rule videoRule = new Rule(OrderType.Video, true, false, false, false, false, false, true, true);
+                //Add
+                BusinessRules.Add(physicalProductRule);
+                BusinessRules.Add(bookRule);
+                BusinessRules.Add(membershipActivationRule);
+                BusinessRules.Add(membershipUpgradeRule);
+                BusinessRules.Add(videoRule);
+            }
+            catch (Exception ex)
+            {
+                //Log exception error to an internal event
+
+            }
         }
         public bool AddOrder(Order o) {
             try
@@ -93,6 +101,7 @@ namespace eOrder
             }
             catch (Exception)
             {
+                //Log exception error to an internal event
                 return false;
             }
 
@@ -117,10 +126,11 @@ namespace eOrder
 
             }
             catch (Exception)
-            {
+            {  
+                //Log exception error to an internal event
                 return false;
             }
-        }
+        }  //Unused added for testing
         public bool ProcessOrder() {
             try
             {
@@ -223,11 +233,10 @@ namespace eOrder
                 {
                     return false;
                 }
-
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //Log exception error to an internal event
                 return false;
             }
         }
@@ -265,8 +274,8 @@ namespace eOrder
             OrderDate = DateTime.Now;
             orderState = OrderState.Pending;
             payment = new Payment(paymentAmount);
-            taxRate = 5.00;        //Or fetch from database
-            shippingRate = 50.00;  //Or fetch from database
+            taxRate = 5.00;        //Or fetch from database settings
+            shippingRate = 50.00;  //Or fetch from database settings
             packingSlips = new List<PackingSlip>();
         }
     }
