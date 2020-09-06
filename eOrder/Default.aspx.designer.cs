@@ -139,6 +139,24 @@ namespace eOrder {
         protected global::System.Web.UI.WebControls.TextBox MembershipId;
         
         /// <summary>
+        /// ActivationOption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton ActivationOption;
+        
+        /// <summary>
+        /// UpgradeOption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton UpgradeOption;
+        
+        /// <summary>
         /// PaymentAmount control.
         /// </summary>
         /// <remarks>
@@ -200,5 +218,14 @@ namespace eOrder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label ValidationMessage;
+        
+        /// <summary>
+        /// OrderDetailRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater OrderDetailRepeater;
     }
 }

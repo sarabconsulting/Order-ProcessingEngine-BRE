@@ -13,7 +13,7 @@
 <body>
     <form id="form1" runat="server" style="margin: 20px;">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h1 class="text-center">eOrder™ system</h1>
+            <h1 class="text-center">eOrder system</h1>
             <hr />
         </div>
         <div id="SucessNotify" runat="server" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 label label-success"
@@ -64,11 +64,11 @@
                 <div id="MembershipTypeSelection" runat="server" class="form-check form-check-inline">
                     <h4 class="text-center">Select a membership options</h4>
                     <asp:TextBox ID="MembershipId" runat="server" placeholder="Enter your membership Id here.. e.g. MBR0001" CssClass="form-control" Text="MBR0001"
-                        ValidationGroup="Ordering" TextMode="SingleLine"></asp:TextBox>
+                        ValidationGroup="Ordering" TextMode="SingleLine" Enabled="false"></asp:TextBox>
                     <br />
-                    <input class="form-check-input" name="MembershipOptions" type="radio" id="ActivationOption" value="Activation" checked />
+                    <input class="form-check-input" name="MembershipOptions" type="radio" id="ActivationOption" runat="server" value="Activation" checked />
                     <label class="form-check-label" for="ActivationOption">Activation</label>
-                    <input class="form-check-input" name="MembershipOptions" type="radio" id="UpgradeOption" value="Upgrade" />
+                    <input class="form-check-input" name="MembershipOptions" type="radio" id="UpgradeOption" runat="server"  value="Upgrade" />
                     <label class="form-check-label" for="UpgradeOption">Upgrade</label>
                     <hr />
                 </div>
@@ -113,30 +113,24 @@
                                 </tr>
                             </thead>
                             <tbody style="font-size: small;">
-                                <tr>
-                                    <td>
-                                        OrderId
-                                    </td>
-                                    <td>
-                                        1
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        OrderType
-                                    </td>
-                                    <td>
-                                        Physical Product
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td>
-                                        Payment
-                                    </td>
-                                    <td>
-                                        100.00 INR
-                                    </td>
-                                </tr>
+                              
+                                <asp:Repeater ID="OrderDetailRepeater" runat="server">
+                                     <ItemTemplate>
+
+                                         <tr>
+                                             <td>
+                                                 <%# ((eOrder.OrderDetail)Container.DataItem).parameter %>
+                                             </td>
+                                             <td>
+                                                 <%# ((eOrder.OrderDetail)Container.DataItem).value%>
+                                             </td>
+                                         </tr>
+
+                                    </ItemTemplate>
+                                </asp:Repeater>
+
+
+                            <%--    
                                  <tr>
                                     <td>
                                         MembershipId
@@ -184,7 +178,7 @@
                                     <td>
                                         10rs to Mr Amanpreet (agent)
                                     </td>
-                                </tr>
+                                </tr>--%>
                             </tbody>
                         </table>
                     </div>

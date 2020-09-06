@@ -39,7 +39,9 @@ namespace eOrder
         public void AddRemoveOrderTest() {
             OrderingSystem os = new OrderingSystem();
             os.Setup();
-            Order neworder = new Order(OrderType.PhysicalProduct, 100.00);
+            List<OrderItem> itemList = new List<OrderItem>();
+            itemList.Add(new OrderItem(1, "Membership Activation", 1, 100));
+            Order neworder = new Order(OrderType.MembershipActivation, itemList, 100.00);
             Assert.AreEqual(os.AddOrder(neworder), true);
             Assert.AreEqual(os.RemoveOrder(neworder.OrderId), true); 
         }
