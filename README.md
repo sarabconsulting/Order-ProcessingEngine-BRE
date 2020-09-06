@@ -1,4 +1,4 @@
-# eOrderSystem
+# Business Rule Engine based eOrder System
  Business Rules driven order processing system to handle orders related to a physical product, a book, membership, and video.
 
 # Online Demo
