@@ -40,13 +40,11 @@
                 <h4 class="text-center">Please make a choice..</h4>
                 <asp:DropDownList ID="OrderType" runat="server" CssClass="form-control" Style="background: #0a9087; color: White;"
                     OnSelectedIndexChanged="OrderType_SelectedIndexChanged" AutoPostBack="true">
-                    <asp:ListItem Value="P">Physical Product</asp:ListItem>
+                    <asp:ListItem Value="P">Product</asp:ListItem>
                     <asp:ListItem Value="B">Book</asp:ListItem>
                     <asp:ListItem Value="M">Membership</asp:ListItem>
-                    <asp:ListItem Value="V">Digital Video</asp:ListItem>
+                    <asp:ListItem Value="V">Video CD</asp:ListItem>
                 </asp:DropDownList>
-
-
                 <br />
                 <div id="VideoSelection" runat="server">
                     <hr />
@@ -62,7 +60,7 @@
                 <br />
 
                 <div id="MembershipTypeSelection" runat="server" class="form-check form-check-inline">
-                    <h4 class="text-center">Select a membership options</h4>
+                    <h4 class="text-center">Select a membership option..</h4>
                     <asp:TextBox ID="MembershipId" runat="server" placeholder="Enter your membership Id here.. e.g. MBR0001" CssClass="form-control" Text="MBR0001"
                         ValidationGroup="Ordering" TextMode="SingleLine" Enabled="false"></asp:TextBox>
                     <br />

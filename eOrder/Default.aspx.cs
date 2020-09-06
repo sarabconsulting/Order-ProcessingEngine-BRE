@@ -62,6 +62,7 @@ namespace eOrder
             OSys.Setup();
 
         }
+
         protected void NotificationButton_Command(object sender, CommandEventArgs e)
         {
             try
@@ -301,7 +302,6 @@ namespace eOrder
             Authorized.Visible = false;
             OrderType.SelectedIndex = 0;
         }
-
         private void ShowOrderPage(Order ord) {
             try
             {
@@ -343,6 +343,7 @@ namespace eOrder
                         {
                             OrderDetails.Add(new OrderDetail() { parameter = "Special Offer Freebie", value = ord.orderItems[1].Name.ToString() });
                         }
+                        OrderDetails.Add(new OrderDetail() { parameter = "Agent Commission", value = ord.AgentComission.ToString() + " INR" });
                         break;
                 }
                 OrderDetails.Add(new OrderDetail()
@@ -399,6 +400,7 @@ namespace eOrder
                     subTotalLabel.Text = ord.orderItems.Sum(x => x.Cost).ToString();
                     subTotal1Label.Text = subTotalLabel.Text;
                     taxLabel.Text = ord.taxRate.ToString();
+                    tax1Label.Text = taxLabel.Text;
                     shippingLabel.Text = ord.shippingRate.ToString();
                     shipping1Label.Text = shippingLabel.Text;
 
@@ -516,8 +518,13 @@ namespace eOrder
                             });
 
                         }
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a physical product or a book, generate a commission payment to the agent",
+                            Applicability = ord.rule.IsCommissionApplicable.ToString()
+                        });
 
-                     break;
+                        break;
                 }
                 BRERepeater.DataSource = rulelist;
                 BRERepeater.DataBind();
@@ -532,31 +539,8 @@ namespace eOrder
             }
 
         }
-
-
-
-
-
-
-
     }
 
-    public class OrderDetail
-    {
-        public string parameter { get; set; }
-        public string value { get; set; }
-    }
-    public class itemDetail
-    {
-        public string Category { get; set; }
-        public string Item { get; set; }
-        public string Quantity { get; set; }
-        public string Cost { get; set; }
-    }
-    public class BREDetail
-    {
-        public string Rule { get; set; }
-        public string Applicability { get; set; }
-    }
+    
 
 }

@@ -7,27 +7,43 @@ using System.Threading.Tasks;
 
 namespace eOrder
 {
-    public enum OrderType {
-        PhysicalProduct,
-        Book,
-        MembershipActivation,
-        MembershipUpgrade,
-        Video
-    }
-    public enum OrderState {
-        Pending,
-        Processed,
-        Failed,
-        Deleted
-    }
-    public enum MembershipType {
-        Basic,
-        Premium
-    }
+    //eOrder Application - ASP.NET / C#
+    //Author: Sarabpreet Singh
+    //Version: 0.1
+    //Dated: 06-September-2020
+    //Place: Jalandhar, PB India
+    // Important Note:
+    // 1. Data is not persisted beyond the session
+    // 2. Extension of the code for Business Rules can be done after integrating with a database to dynamically generate 
+    //    and apply these rules. If done so, then the UI related objects would also require minor modification.
+    //END
+
+    #region Emumerations
+        public enum OrderType
+        {
+            PhysicalProduct,
+            Book,
+            MembershipActivation,
+            MembershipUpgrade,
+            Video
+        }
+        public enum OrderState
+        {
+            Pending,
+            Processed,
+            Failed,
+            Deleted
+        }
+        public enum MembershipType
+        {
+            Basic,
+            Premium
+        }
+    #endregion
+    #region OrderProcessing Object
     public class OrderingSystem
     {
         static private List<Order> CurrentOrders { get; set; }
-        static private List<Order> OrdersHistory { get; set; }
         static private List<Rule> BusinessRules;
         public List<Rule> GetCurrentRules() {
             return BusinessRules;
@@ -36,24 +52,19 @@ namespace eOrder
         {
             return CurrentOrders;
         }
-        public List<Order> GetOrdersHistory()
-        {
-            return OrdersHistory;
-        }
         public int RulesCount() {
             return BusinessRules.Count();
         }
         public void Setup()
         {
             CurrentOrders = new List<Order>();
-            OrdersHistory = new List<Order>();
             BusinessRules = new List<Rule>();
             //Create Rules as per Problem Statement / or Fetch Saved Rules from Database table
             Rule physicalProductRule = new Rule(OrderType.PhysicalProduct, true, false, false, false, false, false, false, true);
             Rule bookRule = new Rule(OrderType.Book, true, true, false, false, false, false, false, true);
             Rule membershipActivationRule = new Rule(OrderType.MembershipActivation, false, false, true, true, false, true, false, false);
             Rule membershipUpgradeRule = new Rule(OrderType.MembershipUpgrade, false, false, true, false, true, true, false, false);
-            Rule videoRule = new Rule(OrderType.Video, true, false, false, false, false, false, true, false);
+            Rule videoRule = new Rule(OrderType.Video, true, false, false, false, false, false, true, true);
             //Add
             BusinessRules.Add(physicalProductRule);
             BusinessRules.Add(bookRule);
@@ -61,8 +72,6 @@ namespace eOrder
             BusinessRules.Add(membershipUpgradeRule);
             BusinessRules.Add(videoRule);
         }
-
-        //CRUD Functions
         public bool AddOrder(Order o) {
             try
             {
@@ -196,7 +205,7 @@ namespace eOrder
                             }
                             if (freebieflag)
                             {
-                                ord.orderItems.Add(new OrderItem(2, "First Aid", 1, 0));
+                                ord.orderItems.Add(new OrderItem(2, "First Aid (free)", 1, 0));
                             }
                         }
                         //IsCommissionApplicable
@@ -223,6 +232,8 @@ namespace eOrder
             }
         }
     }
+    #endregion
+    #region OrderingandBREObjects
     public class Order
     {
         [Required]
@@ -271,8 +282,6 @@ namespace eOrder
             Cost = cost;
         }
     }
-   
-
     public class Membership {
         [Required]
         public MembershipType membershipType { get; set; }
@@ -281,7 +290,6 @@ namespace eOrder
         public bool IsMembershipPremium { get; set; }
         public string EmailNotificationMessage { get; private set; }
         public bool EmailNotificationSent { get; private set; }
-
         public bool ActivateMembership(string EncryptedAuthToken, bool ApprovedForActivation)
         {
             try
@@ -433,5 +441,24 @@ namespace eOrder
             IsCommissionApplicable = agentcommission;
         }
     }
-    
+    #endregion
+    #region UIObjectClasses
+    public class OrderDetail
+        {
+            public string parameter { get; set; }
+            public string value { get; set; }
+        }
+        public class itemDetail
+        {
+            public string Category { get; set; }
+            public string Item { get; set; }
+            public string Quantity { get; set; }
+            public string Cost { get; set; }
+        }
+        public class BREDetail
+        {
+            public string Rule { get; set; }
+            public string Applicability { get; set; }
+        }
+    #endregion
 }

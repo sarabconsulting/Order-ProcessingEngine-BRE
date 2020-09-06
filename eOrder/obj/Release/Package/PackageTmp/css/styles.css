@@ -1,0 +1,36 @@
+﻿@media screen and (min-width: 480px) {
+    body {
+        width: 50%;
+        display: inline;
+      margin-left: 0;
+     margin-right: 0;
+    }
+}
+
+@media screen and (min-width:768px) {
+    body {
+      width: 720px;
+        display:inline;
+      margin-left: 0;
+     margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    body {
+        width: 1024px;
+          display:inline;
+      margin-left: 0;
+     margin-right: 0;
+  
+    }
+}
+@media screen and (min-width: 1600px) {
+    body {
+        width: 1200px;
+          display:inline;
+      margin-left: 0;
+     margin-right: 0;
+     
+    }
+}
