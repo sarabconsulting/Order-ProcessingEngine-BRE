@@ -14,10 +14,7 @@ namespace eOrder
         {
             try
             {
-                if (IsPostBack)
-                {
-                }
-                else
+                if (!IsPostBack)
                 {
                     PageSetup();
                 }
