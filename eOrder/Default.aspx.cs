@@ -52,6 +52,12 @@ namespace eOrder
             VideoSelection.Visible = false;
             MembershipTypeSelection.Visible = false;
             OrderValidator.Visible = false;
+            packingPanel.Visible = false;
+            PackingSlipMain.Visible = false;
+            duplicatePackingSlip.Visible = false;
+            NotificationPanel.Visible = false;
+            NotifyActivationPanel.Visible = false;
+            NotifyUpgradePanel.Visible = false;
             OSys = new OrderingSystem();
             OSys.Setup();
 
@@ -299,7 +305,7 @@ namespace eOrder
         private void ShowOrderPage(Order ord) {
             try
             {
-
+                //Handle Order Details Panel
                 List<OrderDetail> OrderDetails = new List<OrderDetail>();
                 OrderDetails.Add(new OrderDetail() { parameter = "Order ID", value = ord.OrderId.ToString() });
                 OrderDetails.Add(new OrderDetail() { parameter = "Order Date", value = ord.OrderDate.ToString() });
@@ -307,20 +313,17 @@ namespace eOrder
                 
                 OrderDetails.Add(new OrderDetail() { parameter = "Current Status", value = ord.orderState.ToString() });
                 OrderDetails.Add(new OrderDetail() { parameter = "Total Items", value = ord.orderItems.Count().ToString() });
-                
-                
-
-
-
                 switch (ord.orderType)
                 {
                     case eOrder.OrderType.PhysicalProduct:
                         OrderDetails.Add(new OrderDetail() { parameter = "Product Name", value = ord.orderItems[0].Name.ToString() });
                         OrderDetails.Add(new OrderDetail() { parameter = "Shipping Cost", value = ord.shippingRate.ToString() });
+                        OrderDetails.Add(new OrderDetail() { parameter = "Agent Commission", value = ord.AgentComission.ToString() + " INR" });
                         break;
                     case eOrder.OrderType.Book:
                         OrderDetails.Add(new OrderDetail() { parameter = "Book Name", value = ord.orderItems[0].Name.ToString() });
                         OrderDetails.Add(new OrderDetail() { parameter = "Shipping Cost", value = ord.shippingRate.ToString() });
+                        OrderDetails.Add(new OrderDetail() { parameter = "Agent Commission", value = ord.AgentComission.ToString() + " INR" });
                         break;
                     case eOrder.OrderType.MembershipActivation:
                         OrderDetails.Add(new OrderDetail() { parameter = "Member ID (if applicable)", value = ord.membership.MembershipId.ToString() });
@@ -342,19 +345,183 @@ namespace eOrder
                         }
                         break;
                 }
-
-
                 OrderDetails.Add(new OrderDetail()
                 {
                     parameter = "Payment",
                     value = ord.payment.Amount.ToString()
                                                     + " " + ord.payment.Currency.ToString()
                 });
-                OrderDetails.Add(new OrderDetail() { parameter = "Tax", value = ord.taxRate.ToString() + " %" });
-
-
+                OrderDetails.Add(new OrderDetail() { parameter = "Tax", value = ord.taxRate.ToString() + " INR" });
                 OrderDetailRepeater.DataSource = OrderDetails;
                 OrderDetailRepeater.DataBind();
+
+                //Handle the Packing Slip Panel
+
+                switch (ord.orderType)
+                {
+                    case eOrder.OrderType.PhysicalProduct:
+                        packingPanel.Visible = true;
+                        PackingSlipMain.Visible = true;
+                        break;
+                    case eOrder.OrderType.Book:
+                        packingPanel.Visible = true;
+                        PackingSlipMain.Visible = true;
+                        duplicatePackingSlip.Visible = true;
+                        break;
+                    case eOrder.OrderType.MembershipActivation:
+                        packingPanel.Visible = false;
+                        break;
+                    case eOrder.OrderType.MembershipUpgrade:
+                        packingPanel.Visible = false;
+                        break;
+                    case eOrder.OrderType.Video:
+                        packingPanel.Visible = true;
+                        PackingSlipMain.Visible = true;
+                        break;
+                    default:
+                        packingPanel.Visible = false;
+                        PackingSlipMain.Visible = false;
+                        duplicatePackingSlip.Visible =false;
+                        break;
+                }
+
+                if (ord.rule.IsPackingSlipApplicable)
+                {
+                    //Packing Slip Details
+                    orderRefLabel.Text = ord.OrderId.ToString();
+                    orderRef1Label.Text = orderRefLabel.Text;
+                    orderDateLabel.Text = ord.OrderDate.ToShortDateString() + " " + ord.OrderDate.ToShortTimeString();
+                    orderDate1Label.Text = orderDateLabel.Text;
+                    shippingFromLabel.Text = ord.packingSlips[0].FromAddress;
+                    shippingFrom1Label.Text = shippingFromLabel.Text;
+                    shippingToLabel.Text = ord.packingSlips[0].ToAddress;
+                    shippingTo1Label.Text = shippingToLabel.Text;
+                    subTotalLabel.Text = ord.orderItems.Sum(x => x.Cost).ToString();
+                    subTotal1Label.Text = subTotalLabel.Text;
+                    taxLabel.Text = ord.taxRate.ToString();
+                    shippingLabel.Text = ord.shippingRate.ToString();
+                    shipping1Label.Text = shippingLabel.Text;
+
+                    //Fill Items
+                    List<itemDetail> itemlist = new List<itemDetail>();
+                    foreach (var item in ord.orderItems)
+                    {
+                        itemDetail i = new itemDetail();
+                        i.Category = ord.orderType.ToString();
+                        i.Item = item.Name;
+                        i.Quantity = item.Quantity.ToString();
+                        i.Cost = item.Cost.ToString();
+                        itemlist.Add(i);
+                    }
+
+                    itemsRepeater.DataSource = itemlist;
+                    itemsRepeater.DataBind();
+                    ItemsRepeater2.DataSource = itemlist;
+                    ItemsRepeater2.DataBind();
+
+                    GrandTotalLabel.Text = (ord.orderItems.Sum(x => x.Cost) + ord.taxRate + ord.shippingRate).ToString() + " " + ord.payment.Currency.ToString();
+                    GrandTotal1Label.Text = GrandTotalLabel.Text;
+                }
+
+                //Handle the Notification Panel
+                switch (ord.orderType)
+                {
+                    case eOrder.OrderType.MembershipActivation:
+                        NotificationPanel.Visible = true;
+                        ActivationMessage.InnerHtml = ord.membership.EmailNotificationMessage;
+                        NotifyActivationPanel.Visible = true;
+                        NotifyUpgradePanel.Visible = false;
+                        break;
+                    case eOrder.OrderType.MembershipUpgrade:
+                        NotificationPanel.Visible = true;
+                        UpgradeMessage.InnerHtml = ord.membership.EmailNotificationMessage;
+                        NotifyActivationPanel.Visible = false;
+                        NotifyUpgradePanel.Visible = true;
+                        break;
+                    default:
+                        NotificationPanel.Visible = false;
+                        NotifyActivationPanel.Visible = false;
+                        NotifyUpgradePanel.Visible = false;
+                        break;
+                }
+
+                //Handle BRE Panel
+                List<BREDetail> rulelist = new List<BREDetail>();
+                switch (ord.orderType)
+                {
+                    case eOrder.OrderType.PhysicalProduct:
+                        rulelist.Add(new BREDetail() {
+                                                        Rule = "If the payment is for a physical product, generate a packing slip for shipping",
+                                                        Applicability = ord.rule.IsPackingSlipApplicable.ToString()                              
+                                                    });
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a physical product or a book, generate a commission payment to the agent",
+                            Applicability = ord.rule.IsCommissionApplicable.ToString()
+                        });
+                        break;
+                    case eOrder.OrderType.Book:
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a physical product, generate a packing slip for shipping",
+                            Applicability = ord.rule.IsPackingSlipApplicable.ToString()
+                        });
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a book, create a duplicate packing slip for the royalty department",
+                            Applicability = ord.rule.IsDuplicatePackingSlipRequired.ToString()
+                        });
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a physical product or a book, generate a commission payment to the agent",
+                            Applicability = ord.rule.IsCommissionApplicable.ToString()
+                        });
+                        break;
+                    case eOrder.OrderType.MembershipActivation:
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a membership, activate that membership",
+                            Applicability = ord.rule.IsMembershipActivation.ToString()
+                        });
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a membership or upgrade, email the owner and inform them of the activation",
+                            Applicability = ord.rule.IsMembershipNotificationRequired.ToString()
+                        });
+                        break;
+                    case eOrder.OrderType.MembershipUpgrade:
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is an upgrade to a membership, apply the upgrade",
+                            Applicability = ord.rule.IsMembershipUpgradation.ToString()
+                        });
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a membership or upgrade, email the owner and inform them of the upgradation",
+                            Applicability = ord.rule.IsMembershipNotificationRequired.ToString()
+                        });
+                        break;
+                    case eOrder.OrderType.Video:
+                        rulelist.Add(new BREDetail()
+                        {
+                            Rule = "If the payment is for a physical product, generate a packing slip for shipping",
+                            Applicability = ord.rule.IsPackingSlipApplicable.ToString()
+                        });
+                        if (ord.rule.IsVideoFreebieApplicable && ord.orderItems[0].Name == "Learning to Ski")
+                        {
+                            rulelist.Add(new BREDetail()
+                            {
+                                Rule = "If the payment is for a video 'Learning to Ski', add a free 'First Aid' video to the packing slip (the result of a court decision in 1997). ",
+                                Applicability = ord.rule.IsVideoFreebieApplicable.ToString()
+                            });
+
+                        }
+
+                     break;
+                }
+                BRERepeater.DataSource = rulelist;
+                BRERepeater.DataBind();
+
                 OrderDiv.Visible = false;
                 Authorized.Visible = true;
             }
@@ -378,6 +545,18 @@ namespace eOrder
     {
         public string parameter { get; set; }
         public string value { get; set; }
+    }
+    public class itemDetail
+    {
+        public string Category { get; set; }
+        public string Item { get; set; }
+        public string Quantity { get; set; }
+        public string Cost { get; set; }
+    }
+    public class BREDetail
+    {
+        public string Rule { get; set; }
+        public string Applicability { get; set; }
     }
 
 }

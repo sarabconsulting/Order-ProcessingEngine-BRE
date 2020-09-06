@@ -68,7 +68,7 @@
                     <br />
                     <input class="form-check-input" name="MembershipOptions" type="radio" id="ActivationOption" runat="server" value="Activation" checked />
                     <label class="form-check-label" for="ActivationOption">Activation</label>
-                    <input class="form-check-input" name="MembershipOptions" type="radio" id="UpgradeOption" runat="server"  value="Upgrade" />
+                    <input class="form-check-input" name="MembershipOptions" type="radio" id="UpgradeOption" runat="server" value="Upgrade" />
                     <label class="form-check-label" for="UpgradeOption">Upgrade</label>
                     <hr />
                 </div>
@@ -89,7 +89,7 @@
                 <div class="pull-right">
                     <asp:Button ID="ResetButton" runat="server" Text="Reset" CssClass="btn btn-danger btn-xs" OnClick="ResetButton_Click" />
                 </div>
-                <strong>Welcome, </strong><span> Master</span>
+                <strong>Welcome, </strong><span>Master</span>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 20px;">
                 <h3 style="background: #0a9087; color: White; padding: 10px; border-radius: 3px;">Current Order</h3>
@@ -100,308 +100,219 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <h4 class="text-center" style="background: lightcyan; color:black; padding:10px; border-radius:7px; ">Order Details</h4>
+                        <h4 class="text-center" style="background: lightcyan; color: black; padding: 10px; border-radius: 7px;">Order Details</h4>
                         <table class="table table-responsive table-condensed">
                             <thead style="font-size: small;">
                                 <tr>
-                                    <th>
-                                        Parameter
+                                    <th>Parameter
                                     </th>
-                                    <th>
-                                        Value
+                                    <th>Value
                                     </th>
                                 </tr>
                             </thead>
                             <tbody style="font-size: small;">
-                              
-                                <asp:Repeater ID="OrderDetailRepeater" runat="server">
-                                     <ItemTemplate>
 
-                                         <tr>
-                                             <td>
-                                                 <%# ((eOrder.OrderDetail)Container.DataItem).parameter %>
-                                             </td>
-                                             <td>
-                                                 <%# ((eOrder.OrderDetail)Container.DataItem).value%>
-                                             </td>
-                                         </tr>
+                                <asp:Repeater ID="OrderDetailRepeater" runat="server">
+                                    <ItemTemplate>
+
+                                        <tr>
+                                            <td>
+                                                <%# ((eOrder.OrderDetail)Container.DataItem).parameter %>
+                                            </td>
+                                            <td>
+                                                <%# ((eOrder.OrderDetail)Container.DataItem).value%>
+                                            </td>
+                                        </tr>
 
                                     </ItemTemplate>
                                 </asp:Repeater>
-
-
-                            <%--    
-                                 <tr>
-                                    <td>
-                                        MembershipId
-                                    </td>
-                                    <td>
-                                        NA
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td>
-                                        Membership Request (if/any)
-                                    </td>
-                                    <td>
-                                        Activation / Upgrade
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Membership Status
-                                    </td>
-                                    <td>
-                                        Activated / Upgraded
-                                    </td>
-                                </tr>
-                                  <tr>
-                                    <td>
-                                        Video  (if/any)
-                                    </td>
-                                    <td>
-                                        Learning to Ski
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td>
-                                        Video Freebie
-                                    </td>
-                                    <td>
-                                        First Aid / NA
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td>
-                                        Applicable Commission (if/any)
-                                    </td>
-                                    <td>
-                                        10rs to Mr Amanpreet (agent)
-                                    </td>
-                                </tr>--%>
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <h4 class="text-center" style="background: lightcyan; color:black; padding:10px; border-radius:7px; ">Packing Slip</h4>
-                            <div class="row" style="background:White; color:gray; border-style: dotted;">
+                    <div id="packingPanel" runat="server" class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
 
-                                <div class="col-ld-12 text-center" >
-                                    <h4><strong>Largest eRetailer Company Private Limited</strong></h4>
-                                    <h5 style="font-size:smaller">Quickest Retail Services </h5>
-                                </div>
+                        <div id="PackingSlipMain" runat="server" class="row" style="background: White; color: gray; border-style: dotted;">
+                            <h4 class="text-center" style="background: lightcyan; color: black; padding: 10px; border-radius: 7px;">Packing Slip</h4>
+                            <div class="col-ld-12 text-center">
+                                <h4><strong>Largest eRetailer Company Private Limited</strong></h4>
+                                <h5 style="font-size: smaller">Quickest Retail Services </h5>
+                            </div>
 
-                                <div class="col-lg-6">
-                                    OrderRef : <span>1</span>
-                                 </div>
-                                <div class="col-lg-6">
-                                    Dated: <span>13-Sep-2020</span>
-                                 </div>
+                            <div class="col-lg-6">
+                                OrderRef : <span><asp:Label ID="orderRefLabel" runat="server" Text="--"></asp:Label></span>
+                            </div>
+                            <div class="col-lg-6">
+                                Dated: <span><asp:Label ID="orderDateLabel" runat="server" Text="--"></asp:Label></span>
+                            </div>
 
 
-                                <div class="col-lg-6">
-                                    <h5><strong>Shipping From</strong></h5>
-                                    <p>Sarabpreet Singh, Retail Manager, Largest eRetailer Company, Punjab, India</p>
-                                </div>
-                                <div class="col-lg-6">
-                                       <h5><strong>Shipping To</strong></h5>
-                                     <p>Sundar Sharma, GT Road Mahilpur, Jalandhar, Punjab India</p>
-                                </div>
-                                <div class="col-lg-12">
-                                    <table class="table table-responsive table-condensed">
-                                        <thead style="font-size: small;">
-                                            <tr>
-                                                <th>Category
-                                                </th>
-                                                <th>Item
-                                                </th>
-                                                <th>
-                                                    Quantity
-                                                </th>
-                                                <th>
-                                                    Cost
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="font-size: small;">
-                                            <tr>
-                                                <td>
-                                                    Video
-                                                </td>
-                                                <td>
-                                                    Learning to Ski
-                                                </td>
-                                                <td>
-                                                     1
-                                                </td>
-                                                <td>
-                                                     100.00 INR
-                                                </td>
-                                            </tr> <tr>
-                                                <td>
-                                                    Video
-                                                </td>
-                                                <td>
-                                                    First Aid
-                                                </td>
-                                                <td>
-                                                     1
-                                                </td>
-                                                <td>
-                                                     0.00 INR
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-lg-12 text-right">
-                                    <h5>Sub-Total:<span>100.00</span> </h5> 
-                                    <h5>Tax (5%): <span>5.00</span> </h5> 
-                                    <h5>Shipping: <span>10.00</span> </h5> 
-                                    <h3>Grand Total: <span>115.00 INR</span> </h3>
-                                </div>
+                            <div class="col-lg-6">
+                                <h5><strong>Shipping From</strong></h5>
+                                <p><asp:Label ID="shippingFromLabel" runat="server" Text="--"></asp:Label></p>
+                            </div>
+                            <div class="col-lg-6">
+                                <h5><strong>Shipping To</strong></h5>
+                                <p><asp:Label ID="shippingToLabel" runat="server" Text="--"></asp:Label></p>
+                            </div>
+                            <div class="col-lg-12">
+                                <table class="table table-responsive table-condensed">
+                                    <thead style="font-size: small;">
+                                        <tr>
+                                            <th>Category
+                                            </th>
+                                            <th>Item
+                                            </th>
+                                            <th>Quantity
+                                            </th>
+                                            <th>Cost
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size: small;">
+                                <asp:Repeater ID="itemsRepeater" runat="server">
+                                    <ItemTemplate>
+
+                                        <tr>
+                                            <td>
+                                                <%# ((eOrder.itemDetail)Container.DataItem).Category %>
+                                            </td>
+                                            <td>
+                                                <%# ((eOrder.itemDetail)Container.DataItem).Item%>
+                                            </td>
+                                             <td>
+                                                <%# ((eOrder.itemDetail)Container.DataItem).Quantity%>
+                                            </td>
+                                             <td>
+                                                <%# ((eOrder.itemDetail)Container.DataItem).Cost%>
+                                            </td>
+                                        </tr>
+
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-12 text-right">
+                                <h5>Sub-Total:<span><asp:Label ID="subTotalLabel" runat="server" Text="0.00"></asp:Label></span> </h5>
+                                <h5>Tax (flat rate): <span><asp:Label ID="taxLabel" runat="server" Text="0.00"></asp:Label></span> </h5>
+                                <h5>Shipping: <span><asp:Label ID="shippingLabel" runat="server" Text="0.00"></asp:Label></span> </h5>
+                                <h3>Grand Total: <span><asp:Label ID="GrandTotalLabel" runat="server" Text="0.00"></asp:Label></span> </h3>
+                            </div>
                         </div>
+                        <div id="duplicatePackingSlip" runat="server" class="row" style="background: White; color: gray; border-style: dotted;">
+                            <h4 class="text-center" style="background: lightcyan; color: black; padding: 10px; border-radius: 7px;">Duplicate Copy (cc to royalty dept.)</h4>
+                            <div class="col-ld-12 text-center">
+                                <h4><strong>Largest eRetailer Company Private Limited</strong></h4>
+                                <h5 style="font-size: smaller">Quickest Retail Services </h5>
+                                <h3 style="font-size: smaller"><strong>Duplicate Copy</strong> </h3>
+                            </div>
 
-                        <h4 class="text-center" style="background: lightcyan; color:black; padding:10px; border-radius:7px; ">Duplicate Copy (cc to royalty dept.)</h4>
-                         <div class="row" style="background:White; color:gray; border-style: dotted;">
-                              <div class="col-ld-12 text-center" >
-                                    <h4><strong>Largest eRetailer Company Private Limited</strong></h4>
-                                    <h5 style="font-size:smaller">Quickest Retail Services </h5>
-                                  <h3 style="font-size:smaller"><strong>Duplicate Copy</strong> </h3>
-                                </div>
-                             
-                                <div class="col-lg-6">
-                                    OrderRef : <span>1</span>
-                                 </div>
-                                <div class="col-lg-6">
-                                    Dated: <span>13-Sep-2020</span>
-                                 </div>
-                                <div class="col-lg-6">
-                                    <h5><strong>Shipping From</strong></h5>
-                                    <p>Sarabpreet Singh, Retail Manager, Largest eRetailer Company, Punjab, India</p>
-                                </div>
-                                <div class="col-lg-6">
-                                     <h5><strong>Shipping To</strong></h5>
-                                     <p>Sundar Sharma, GT Road Mahilpur, Jalandhar, Punjab India</p>
-                                </div>
-                                <div class="col-lg-12">
-                                    <table class="table table-responsive table-condensed">
-                                        <thead style="font-size: small;">
-                                            <tr>
-                                                <th>Category
-                                                </th>
-                                                <th>Item
-                                                </th>
-                                                <th>
-                                                    Quantity
-                                                </th>
-                                                <th>
-                                                    Cost
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="font-size: small;">
-                                            <tr>
-                                                <td>
-                                                    Video
-                                                </td>
-                                                <td>
-                                                    Learning to Ski
-                                                </td>
-                                                <td>
-                                                     1
-                                                </td>
-                                                <td>
-                                                     100.00 INR
-                                                </td>
-                                            </tr> <tr>
-                                                <td>
-                                                    Video
-                                                </td>
-                                                <td>
-                                                    First Aid
-                                                </td>
-                                                <td>
-                                                     1
-                                                </td>
-                                                <td>
-                                                     0.00 INR
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-lg-12 text-right">
-                                    <h5>Sub-Total:<span>100.00</span> </h5> 
-                                    <h5>Tax (5%): <span>5.00</span> </h5> 
-                                    <h5>Shipping: <span>10.00</span> </h5> 
-                                    <h3>Grand Total: <span>115.00 INR</span> </h3>
-                                </div>
+                            <div class="col-lg-6">
+                                OrderRef : <span>
+                                    <asp:Label ID="orderRef1Label" runat="server" Text="--"></asp:Label></span>
+                            </div>
+                            <div class="col-lg-6">
+                                Dated: <span><asp:Label ID="orderDate1Label" runat="server" Text="--"></asp:Label></span>
+                            </div>
+                            <div class="col-lg-6">
+                                <h5><strong>Shipping From</strong></h5>
+                                <p><asp:Label ID="shippingFrom1Label" runat="server" Text="--"></asp:Label></p>
+                            </div>
+                            <div class="col-lg-6">
+                                <h5><strong>Shipping To</strong></h5>
+                                <p><asp:Label ID="shippingTo1Label" runat="server" Text="--"></asp:Label></p>
+                            </div>
+                            <div class="col-lg-12">
+                                <table class="table table-responsive table-condensed">
+                                    <thead style="font-size: small;">
+                                        <tr>
+                                            <th>Category
+                                            </th>
+                                            <th>Item
+                                            </th>
+                                            <th>Quantity
+                                            </th>
+                                            <th>Cost
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size: small;">
+                                        <asp:Repeater ID="ItemsRepeater2" runat="server">
+                                    <ItemTemplate>
+
+                                        <tr>
+                                            <td>
+                                                <%# ((eOrder.itemDetail)Container.DataItem).Category %>
+                                            </td>
+                                            <td>
+                                                <%# ((eOrder.itemDetail)Container.DataItem).Item%>
+                                            </td>
+                                             <td>
+                                                <%# ((eOrder.itemDetail)Container.DataItem).Quantity%>
+                                            </td>
+                                             <td>
+                                                <%# ((eOrder.itemDetail)Container.DataItem).Cost%>
+                                            </td>
+                                        </tr>
+
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-12 text-right">
+                                <h5>Sub-Total:<span><asp:Label ID="subTotal1Label" runat="server" Text="0.00"></asp:Label></span> </h5>
+                                <h5>Tax (flat rate): <span><asp:Label ID="tax1Label" runat="server" Text="0.00"></asp:Label></span> </h5>
+                                <h5>Shipping: <span><asp:Label ID="shipping1Label" runat="server" Text="0.00"></asp:Label></span> </h5>
+                                <h3>Grand Total: <span><asp:Label ID="GrandTotal1Label" runat="server" Text="0.00 INR"></asp:Label></span> </h3>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <h4 class="text-center" style="background: lightcyan; color:black; padding:10px; border-radius:7px; ">Membership Activated Notification</h4>
-                          
-                        <div class="row">
-                        <div class="col-lg-12">
-                            
-                              <h5><strong>Dear Sir/Madam,</strong></h5>
+                    <div id="NotificationPanel" runat="server" class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div id="NotifyActivationPanel" runat="server" class="row">
+                            <h4 class="text-center" style="background: lightcyan; color: black; padding: 10px; border-radius: 7px;">Membership Activated Email Notification</h4>
+                            <div id="ActivationMessage" runat="server" class="col-lg-12">
+                            </div>
+                        </div>
 
-                              <p>You will be happy to know that your membership has been <strong>activated</strong> on date 3rd September 2020. We hope you will truly enjoy our product and services.</p>
-                            <br />
-                              <p>Best Wishes,</p>
-                              <p>Customer Support</p>
-                              <p>Largest eRetailer Company</p>
-
-                          </div>
-   </div>
-
-                        <h4 class="text-center" style="background: lightcyan; color:black; padding:10px; border-radius:7px; ">Membership Upgraded Notification</h4>
-                          <div class="row">
-                        <div class="col-lg-12">
-                            
-                              <h5><strong>Dear Sir/Madam,</strong></h5>
-
-                              <p>You will be happy to know that your membership has been <strong>upgraded</strong> on date 3rd September 2020 to Premium membership. We hope you will truly enjoy premium experience of our product and services.</p>
-                            <br />
-                              <p>Best Wishes,</p>
-                             <p>Customer Support</p>
-                              <p>Largest eRetailer Company</p>
-
-
-                          </div>
-   </div>
+                        
+                        <div id="NotifyUpgradePanel" runat="server" class="row">
+                            <h4 class="text-center" style="background: lightcyan; color: black; padding: 10px; border-radius: 7px;">Membership Upgraded Email Notification</h4>
+                            <div id="UpgradeMessage" runat="server" class="col-lg-12">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <h4 class="text-center" style="background: green; color:White; padding:10px; border-radius:7px; ">Business Rules Applicable</h4>
-                          <table class="table table-responsive table-condensed">
-                                        <thead style="font-size: small;">
-                                            <tr>
-                                                <th>Rule
-                                                </th>
-                                                <th>Applicable
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="font-size: small;">
-                                            <tr>
-                                                <td>
-                                                    Payment for physical product, generate a packing slip for shipping
-                                                </td>
-                                                <td>
-                                                    Yes
-                                                </td>
-                                            </tr>
-                                             <tr>
-                                                <td>
-                                                    Payment is for a book, create a duplicate packing slip for royalty department
-                                                </td>
-                                                <td>
-                                                    No
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+
+
+
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                        <h4 class="text-center" style="background: green; color: White; padding: 10px; border-radius: 7px;">Business Rules Applicable</h4>
+                        <table class="table table-responsive table-condensed">
+                            <thead style="font-size: small;">
+                                <tr>
+                                    <th>Rule
+                                    </th>
+                                    <th>Applicable
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: small;">
+                                
+                                  <asp:Repeater ID="BRERepeater" runat="server">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td>
+                                                <%# ((eOrder.BREDetail)Container.DataItem).Rule %>
+                                            </td>
+                                            <td>
+                                                <%# ((eOrder.BREDetail)Container.DataItem).Applicability%>
+                                            </td>
+                                        </tr>
+
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

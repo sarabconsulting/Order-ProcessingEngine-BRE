@@ -262,8 +262,8 @@ namespace eOrder
     public class OrderItem {
         private int SrN { get; set; }
         public string Name { get; set; }
-        private int Quantity { get; set; }
-        private double Cost { get; set; }
+        public int Quantity { get; set; }
+        public double Cost { get; set; }
         public OrderItem(int srn, string name, int qty, double cost) {
             SrN = srn;
             Name = name;
@@ -330,19 +330,21 @@ namespace eOrder
             switch (membershipType)
             {
                 case MembershipType.Basic:
-                    EmailNotificationMessage = @"Dear Sir/Madam,
-                                               You will be happy to know that your membership of " + membershipType.ToString() + " plan has been            activated on date " + DateTime.Now.ToString() +@". We hope you will truly enjoy our product and services. 
-                                                Best Wishes,
-                                                Customer Support
-                                                Largest eRetailer Company";
+                    EmailNotificationMessage =   @"<h5><strong> Dear Sir / Madam,</strong></h5>
+                                                   <p> You will be happy to know that your membership has been <strong> activated </strong> on date " +                   DateTime.Now.ToString() + @".We hope you will truly enjoy our product and services.</p>
+                                                           <br/>
+                                                          <p> Best Wishes,</p>
+                                                  <p> Customer Support </p>
+                                                     <p> Largest eRetailer Company</p>";
 
                     break;
                 case MembershipType.Premium:
-                    EmailNotificationMessage = @"Dear Sir/Madam,
-                                               You will be happy to know that your Basic membership upgrade request to " + membershipType.ToString() + " plan has been processed on date " +      DateTime.Now.ToString() + @". We hope you will truly enjoy our product and services. 
-                                                Best Wishes,
-                                                Customer Support
-                                                Largest eRetailer Company";
+                    EmailNotificationMessage = @"<h5><strong> Dear Sir / Madam,</strong></h5>
+                                                   <p> You will be happy to know that your membership has been <strong> upgraded </strong> on date " + DateTime.Now.ToString() + @".We hope you will truly enjoy our premium experience for our products and services.</p>
+                                                           <br/>
+                                                          <p> Best Wishes,</p>
+                                                  <p> Customer Support </p>
+                                                     <p> Largest eRetailer Company</p>";
                     break;
             }
 
@@ -386,13 +388,13 @@ namespace eOrder
         [Required]
         private int OrderRef { get; set; }
         [Required]
-        private DateTime OrderDate { get; set; }
-        private string FromAddress { get; set; }
-        private string ToAddress { get; set; }
+        public DateTime OrderShippingDate { get; set; }
+        public string FromAddress { get; set; }
+        public string ToAddress { get; set; }
         public bool IsDuplicate { get; set; }
         public PackingSlip(int orderRef, bool isDuplicate) {
             OrderRef = orderRef;
-            OrderDate = DateTime.Now;
+            OrderShippingDate = DateTime.Now;
             FromAddress = "Sarabpreet Singh, Retail Manager, Largest eRetailer Company, Punjab, India";
             ToAddress = "Sundar Sharma, GT Road Mahilpur, Jalandhar, Punjab India - +919288837238";
             IsDuplicate = isDuplicate;
